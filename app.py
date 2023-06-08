@@ -11,16 +11,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
 
 # Configure database details, these need to be changed depending on how you configured mysql container
-db_user = environ.get('DB_USER', 'CHANGEME')
-db_pass = environ.get('DB_PASS', 'CHANGEME')
-db_host = environ.get('DB_HOST', 'CHANGEME')
-db_name = environ.get('DB_NAME', 'CHANGEME')
+db_user = environ.get('DB_USER', 'user')
+db_pass = environ.get('DB_PASS', 'password')
+db_host = environ.get('DB_HOST', 'db')
+db_name = environ.get('DB_NAME', 'temperature')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://'+db_user+':'+db_pass+'@'+db_host+'/'+db_name
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-student = environ.get('STUDENT', 'Default Student')
-college = environ.get('COLLEGE', 'Default College')
+student = environ.get('STUDENT', 'Kevin Furjan')
+college = environ.get('COLLEGE', 'University College Algebra')
 
 db = SQLAlchemy(app)
 
