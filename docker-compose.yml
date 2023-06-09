@@ -1,6 +1,23 @@
 version: '3'
 
 services:
+  app:
+    container_name: tempconverter-app
+    build: .
+    environment:
+      DB_HOST: db
+      DB_USER: user
+      DB_PASS: password
+      DB_NAME: temperature
+      SECRET_KEY: your-secret-key
+      STUDENT: "Kevin Furjan"
+      COLLEGE: "University College Algebra"
+    ports:
+      - 5000:5000
+    depends_on:
+      db:
+        condition: service_healthy
+
   db:
     container_name: db
     image: mysql:8
@@ -13,32 +30,9 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./data:/var/lib/mysql
+      - ./mysql:/var/lib/mysql
     healthcheck:
         test: "/usr/bin/mysql --user=root --password=mysql --execute \"SHOW DATABASES;\""
         interval: 5s
         timeout: 30s
         retries: 15
-    networks:
-      - temperature-converter-network
-
-  app:
-    build: .
-    environment:
-      DB_HOST: db
-      DB_USER: user
-      DB_PASS: password
-      DB_NAME: temperature
-      SECRET_KEY: your-secret-key
-      STUDENT: "Kevin Furjan"
-      COLLEGE: "University College Algebra"
-    ports:
-      - 8080:5000
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      - temperature-converter-network
-
-networks:
-  temperature-converter-network:
